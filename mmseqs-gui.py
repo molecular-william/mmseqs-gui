@@ -335,7 +335,7 @@ class MMseqsGUI(QMainWindow):
         }
         
         # Initialize with first tool
-        self.on_tool_changed("createdb")
+        self.on_tool_changed("easy-cluster")
     
     def on_tool_changed(self, tool_name):
         """Update parameter panel when tool selection changes"""
