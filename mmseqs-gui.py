@@ -209,10 +209,7 @@ class MMseqsGUI(QMainWindow):
         
         self.tool_combo = QComboBox()
         self.tool_combo.addItems([
-            "createdb", "search", "cluster", "linclust", 
-            "map", "easy-search", "easy-cluster", "easy-linclust",
-            "align", "convertalis", "filterdb", "result2profile",
-            "profile2consensus", "msa2profile", "expandaln"
+            "easy-search", "easy-cluster", "easy-linclust",
         ])
         self.tool_combo.currentTextChanged.connect(self.on_tool_changed)
         
@@ -301,59 +298,6 @@ class MMseqsGUI(QMainWindow):
     def setup_tool_parameters(self):
         """Define parameters for each MMseqs tool"""
         self.tool_params = {
-            "createdb": {
-                "desc": "Create MMseqs2 database from FASTA file",
-                "params": [
-                    ("--dbtype", "categorical", {"Automatic detection": 0, "Amino acid": 1, "Nucleotide": 2}, "Database type"),
-                    ("--shuffle", "bool", True, "Shuffle input database"),
-                    ("--createdb-mode", "categorical", {"Fast (parallel)": 0, "Stable (sequential)": 1}, "Creation mode"),
-                ]
-            },
-            "search": {
-                "desc": "Sensitive homology search with profile-to-sequence or sequence-to-sequence comparison",
-                "params": [
-                    ("-s", "float", "5.7", "Sensitivity (1.0: fast, 5.7: sensitive, 7.5: more sensitive)"),
-                    ("-e", "float", "0.001", "E-value threshold"),
-                    ("--max-seqs", "int", "300", "Maximum results per query"),
-                    ("--max-accept", "int", "1000000", "Maximum accepted alignments"),
-                    ("--alignment-mode", "categorical", {"Automatic": 0, "Score only": 1, "Score + end coordinates": 2, "Full alignment": 3}, "Alignment mode"),
-                    ("--min-seq-id", "float", "0.0", "Minimum sequence identity (0.0-1.0)"),
-                    ("-a", "bool", False, "Add backtrace to alignment (for --format-mode 4)"),
-                    ("--cov-mode", "categorical", {"Bidirectional": 0, "Query coverage": 1, "Target coverage": 2}, "Coverage mode"),
-                    ("-c", "float", "0.8", "Coverage threshold (0.0-1.0)"),
-                    ("--threads", "int", "4", "Number of threads"),
-                ]
-            },
-            "cluster": {
-                "desc": "Cluster sequences using cascaded clustering",
-                "params": [
-                    ("-s", "float", "5.7", "Sensitivity"),
-                    ("-c", "float", "0.8", "Coverage threshold (0.0-1.0)"),
-                    ("--cov-mode", "categorical", {"Bidirectional": 0, "Query coverage": 1, "Target coverage": 2}, "Coverage mode"),
-                    ("--min-seq-id", "float", "0.0", "Minimum sequence identity (0.0-1.0)"),
-                    ("--cluster-mode", "categorical", {"Set cover (greedy)": 0, "Connected component": 1, "Greedy": 2, "Greedy (memory efficient)": 3}, "Cluster mode"),
-                    ("--cluster-steps", "int", "3", "Clustering steps"),
-                    ("--threads", "int", "4", "Number of threads"),
-                ]
-            },
-            "linclust": {
-                "desc": "Linear time clustering (faster, less sensitive than cluster)",
-                "params": [
-                    ("-c", "float", "0.9", "Coverage threshold (0.0-1.0)"),
-                    ("--kmer-per-seq", "int", "80", "K-mers per sequence"),
-                    ("--min-seq-id", "float", "0.9", "Minimum sequence identity (0.0-1.0)"),
-                    ("--threads", "int", "4", "Number of threads"),
-                ]
-            },
-            "map": {
-                "desc": "Map reads to reference database (fast mapping)",
-                "params": [
-                    ("-s", "float", "2.0", "Sensitivity"),
-                    ("--min-seq-id", "float", "0.9", "Minimum sequence identity (0.0-1.0)"),
-                    ("-c", "float", "0.0", "Coverage threshold (0.0-1.0)"),
-                    ("--threads", "int", "4", "Number of threads"),
-                ]
-            },
             "easy-search": {
                 "desc": "Search query sequences against target database (easy workflow)",
                 "params": [
@@ -388,60 +332,6 @@ class MMseqsGUI(QMainWindow):
                     ("--threads", "int", "4", "Number of threads"),
                 ]
             },
-            "align": {
-                "desc": "Compute alignments for previous search results",
-                "params": [
-                    ("-e", "float", "0.001", "E-value threshold"),
-                    ("--alignment-mode", "categorical", {"Automatic": 0, "Score only": 1, "Score + end coordinates": 2, "Full alignment": 3}, "Alignment mode"),
-                    ("--min-seq-id", "float", "0.0", "Minimum sequence identity (0.0-1.0)"),
-                    ("-a", "bool", False, "Add backtrace"),
-                    ("--threads", "int", "4", "Number of threads"),
-                ]
-            },
-            "convertalis": {
-                "desc": "Convert alignment database to BLAST-TAB or other formats",
-                "params": [
-                    ("--format-mode", "categorical", {"BLAST-TAB": 0, "SAM": 2, "BLAST-TAB + lengths": 4}, "Format mode"),
-                    ("--format-output", "str", "", "Custom output format string"),
-                ]
-            },
-            "filterdb": {
-                "desc": "Filter a database by condition",
-                "params": [
-                    ("--filter-column", "int", "1", "Column to filter on"),
-                    ("--filter-regex", "str", "", "Regex filter"),
-                    ("--filter-file", "str", "", "File with entries to filter"),
-                    ("--positive-filter", "bool", True, "Positive filtering (keep matches)"),
-                ]
-            },
-            "result2profile": {
-                "desc": "Convert alignment result to profile database",
-                "params": [
-                    ("--e-profile", "float", "0.1", "E-value threshold for profile"),
-                    ("--threads", "int", "4", "Number of threads"),
-                ]
-            },
-            "profile2consensus": {
-                "desc": "Convert profile database to consensus sequence database",
-                "params": [
-                    ("--threads", "int", "4", "Number of threads"),
-                ]
-            },
-            "msa2profile": {
-                "desc": "Convert MSA to profile database",
-                "params": [
-                    ("--match-mode", "categorical", {"Gap fraction": 0, "Auto": 1}, "Match mode"),
-                    ("--match-ratio", "float", "0.5", "Match ratio threshold (0.0-1.0)"),
-                    ("--threads", "int", "4", "Number of threads"),
-                ]
-            },
-            "expandaln": {
-                "desc": "Expand alignments by transitive alignment",
-                "params": [
-                    ("--expansion-mode", "categorical", {"Default": 0, "Keep all hits": 1, "Keep best hits": 2}, "Expansion mode"),
-                    ("--threads", "int", "4", "Number of threads"),
-                ]
-            }
         }
         
         # Initialize with first tool
