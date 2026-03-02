@@ -489,7 +489,7 @@ class MMseqsGUI(QMainWindow):
         output_dir = self.output_path.text()
         db_file = self.db_path.text()
         
-        if not input_file and tool in ["createdb", "easy-search", "easy-cluster", "easy-linclust"]:
+        if not input_file and tool in ["easy-search", "easy-cluster", "easy-linclust"]:
             self.cmd_preview.setText("Please select input file first")
             self.btn_run.setEnabled(False)
             return
@@ -706,7 +706,6 @@ class MMseqsGUI(QMainWindow):
                 padding: 4px 6px;
                 border: 1px solid #dcdde1;
                 border-radius: 3px;
-                background-color: white;
                 min-height: 24px;
                 font-size: 11px;
             }
@@ -720,7 +719,6 @@ class MMseqsGUI(QMainWindow):
                 padding: 4px 6px;
                 border: 1px solid #dcdde1;
                 border-radius: 3px;
-                background-color: white;
                 min-height: 24px;
                 font-size: 11px;
             }
